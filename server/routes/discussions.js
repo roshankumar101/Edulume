@@ -87,23 +87,53 @@ router.get("/", async (req, res) => {
       limit = 10,
     } = req.query;
 
+    // Type validation for query parameters
+    const pageNum = parseInt(page, 10);
+    const limitNum = parseInt(limit, 10);
+    
+    if (isNaN(pageNum) || pageNum < 1) {
+      return res.status(400).json({ error: "Invalid page parameter" });
+    }
+    
+    if (isNaN(limitNum) || limitNum < 1 || limitNum > 100) {
+      return res.status(400).json({ error: "Invalid limit parameter" });
+    }
+
     const where = {};
 
     if (category && category !== "all") {
+      // Validate category is a string
+      if (typeof category !== "string") {
+        return res.status(400).json({ error: "Invalid category parameter" });
+      }
       where.category = category;
     }
 
     if (tag) {
+      // Validate tag is a string
+      if (typeof tag !== "string") {
+        return res.status(400).json({ error: "Invalid tag parameter" });
+      }
       where.tags = {
         contains: tag,
       };
     }
 
     if (search) {
+      // Validate search is a string
+      if (typeof search !== "string") {
+        return res.status(400).json({ error: "Invalid search parameter" });
+      }
       where.OR = [
         { title: { contains: search, mode: "insensitive" } },
         { content: { contains: search, mode: "insensitive" } },
       ];
+    }
+
+    // Validate sort parameter
+    const validSortOptions = ["recent", "popular", "answered", "unanswered"];
+    if (typeof sort !== "string" || !validSortOptions.includes(sort)) {
+      return res.status(400).json({ error: "Invalid sort parameter" });
     }
 
     let orderBy = {};
@@ -121,8 +151,8 @@ router.get("/", async (req, res) => {
         orderBy = { createdAt: "desc" };
     }
 
-    const skip = (parseInt(page) - 1) * parseInt(limit);
-    const take = parseInt(limit);
+    const skip = (pageNum - 1) * limitNum;
+    const take = limitNum;
 
     const [discussions, total] = await Promise.all([
       prisma.discussion.findMany({
@@ -165,10 +195,10 @@ router.get("/", async (req, res) => {
     res.json({
       discussions: transformedDiscussions,
       pagination: {
-        page: parseInt(page),
-        limit: parseInt(limit),
+        page: pageNum,
+        limit: limitNum,
         total,
-        pages: Math.ceil(total / parseInt(limit)),
+        pages: Math.ceil(total / limitNum),
       },
     });
   } catch (error) {
@@ -181,6 +211,11 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Type validation for id parameter
+    if (!id || typeof id !== "string") {
+      return res.status(400).json({ error: "Invalid discussion ID" });
+    }
 
     const discussion = await prisma.discussion.findUnique({
       where: { id },
@@ -270,10 +305,20 @@ router.post("/", authenticateToken, async (req, res) => {
   try {
     const { title, content, category, tags, images } = req.body;
 
-    if (!title || !content || !category) {
+    // Type validation for required fields
+    if (!title || typeof title !== "string" || !content || typeof content !== "string" || !category || typeof category !== "string") {
       return res.status(400).json({
-        error: "Title, content, and category are required",
+        error: "Title, content, and category are required and must be strings",
       });
+    }
+
+    // Type validation for optional fields
+    if (tags && !Array.isArray(tags)) {
+      return res.status(400).json({ error: "Tags must be an array" });
+    }
+
+    if (images && !Array.isArray(images)) {
+      return res.status(400).json({ error: "Images must be an array" });
     }
 
     const discussion = await prisma.discussion.create({
@@ -303,8 +348,17 @@ router.post("/:id/answers", authenticateToken, async (req, res) => {
     const { id } = req.params;
     const { content, images } = req.body;
 
-    if (!content) {
-      return res.status(400).json({ error: "Content is required" });
+    // Type validation for parameters
+    if (!id || typeof id !== "string") {
+      return res.status(400).json({ error: "Invalid discussion ID" });
+    }
+
+    if (!content || typeof content !== "string") {
+      return res.status(400).json({ error: "Content is required and must be a string" });
+    }
+
+    if (images && !Array.isArray(images)) {
+      return res.status(400).json({ error: "Images must be an array" });
     }
 
     const discussion = await prisma.discussion.findUnique({
@@ -401,8 +455,17 @@ router.post(
       const { answerId } = req.params;
       const { content, images } = req.body;
 
-      if (!content) {
-        return res.status(400).json({ error: "Content is required" });
+      // Type validation for parameters
+      if (!answerId || typeof answerId !== "string") {
+        return res.status(400).json({ error: "Invalid answer ID" });
+      }
+
+      if (!content || typeof content !== "string") {
+        return res.status(400).json({ error: "Content is required and must be a string" });
+      }
+
+      if (images && !Array.isArray(images)) {
+        return res.status(400).json({ error: "Images must be an array" });
       }
 
       const answer = await prisma.discussionAnswer.findUnique({
@@ -500,7 +563,12 @@ router.post("/:id/vote", authenticateToken, async (req, res) => {
     const { id } = req.params;
     const { voteType } = req.body; // 'up' or 'down'
 
-    if (!voteType || !["up", "down"].includes(voteType)) {
+    // Type validation for parameters
+    if (!id || typeof id !== "string") {
+      return res.status(400).json({ error: "Invalid discussion ID" });
+    }
+
+    if (!voteType || typeof voteType !== "string" || !["up", "down"].includes(voteType)) {
       return res.status(400).json({ error: "Valid vote type is required" });
     }
 
@@ -577,7 +645,12 @@ router.post("/answers/:answerId/vote", authenticateToken, async (req, res) => {
     const { answerId } = req.params;
     const { voteType } = req.body;
 
-    if (!voteType || !["up", "down"].includes(voteType)) {
+    // Type validation for parameters
+    if (!answerId || typeof answerId !== "string") {
+      return res.status(400).json({ error: "Invalid answer ID" });
+    }
+
+    if (!voteType || typeof voteType !== "string" || !["up", "down"].includes(voteType)) {
       return res.status(400).json({ error: "Valid vote type is required" });
     }
 
@@ -651,7 +724,12 @@ router.post("/replies/:replyId/vote", authenticateToken, async (req, res) => {
     const { replyId } = req.params;
     const { voteType } = req.body;
 
-    if (!voteType || !["up", "down"].includes(voteType)) {
+    // Type validation for parameters
+    if (!replyId || typeof replyId !== "string") {
+      return res.status(400).json({ error: "Invalid reply ID" });
+    }
+
+    if (!voteType || typeof voteType !== "string" || !["up", "down"].includes(voteType)) {
       return res.status(400).json({ error: "Valid vote type is required" });
     }
 
@@ -725,6 +803,11 @@ router.post("/answers/:answerId/best", authenticateToken, async (req, res) => {
   try {
     const { answerId } = req.params;
 
+    // Type validation for answerId parameter
+    if (!answerId || typeof answerId !== "string") {
+      return res.status(400).json({ error: "Invalid answer ID" });
+    }
+
     const answer = await prisma.discussionAnswer.findUnique({
       where: { id: answerId },
       include: {
@@ -787,8 +870,21 @@ router.post("/answers/:answerId/best", authenticateToken, async (req, res) => {
 router.get("/notifications", authenticateToken, async (req, res) => {
   try {
     const { page = 1, limit = 20 } = req.query;
-    const skip = (parseInt(page) - 1) * parseInt(limit);
-    const take = parseInt(limit);
+    
+    // Type validation for query parameters
+    const pageNum = parseInt(page, 10);
+    const limitNum = parseInt(limit, 10);
+    
+    if (isNaN(pageNum) || pageNum < 1) {
+      return res.status(400).json({ error: "Invalid page parameter" });
+    }
+    
+    if (isNaN(limitNum) || limitNum < 1 || limitNum > 100) {
+      return res.status(400).json({ error: "Invalid limit parameter" });
+    }
+    
+    const skip = (pageNum - 1) * limitNum;
+    const take = limitNum;
 
     const [notifications, total] = await Promise.all([
       prisma.notification.findMany({
@@ -817,10 +913,10 @@ router.get("/notifications", authenticateToken, async (req, res) => {
     res.json({
       notifications: transformedNotifications,
       pagination: {
-        page: parseInt(page),
-        limit: parseInt(limit),
+        page: pageNum,
+        limit: limitNum,
         total,
-        pages: Math.ceil(total / parseInt(limit)),
+        pages: Math.ceil(total / limitNum),
       },
     });
   } catch (error) {
@@ -833,6 +929,11 @@ router.get("/notifications", authenticateToken, async (req, res) => {
 router.put("/notifications/:id/read", authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Type validation for id parameter
+    if (!id || typeof id !== "string") {
+      return res.status(400).json({ error: "Invalid notification ID" });
+    }
 
     const notification = await prisma.notification.findUnique({
       where: { id },
@@ -862,6 +963,13 @@ router.put("/notifications/:id/read", authenticateToken, async (req, res) => {
 router.get("/tags/popular", async (req, res) => {
   try {
     const { limit = 10 } = req.query;
+    
+    // Type validation for limit parameter
+    const limitNum = parseInt(limit, 10);
+    
+    if (isNaN(limitNum) || limitNum < 1 || limitNum > 100) {
+      return res.status(400).json({ error: "Invalid limit parameter" });
+    }
 
     // Get all discussions with tags
     const discussions = await prisma.discussion.findMany({
@@ -894,7 +1002,7 @@ router.get("/tags/popular", async (req, res) => {
     const popularTags = Object.entries(tagCounts)
       .map(([tag, count]) => ({ tag, count }))
       .sort((a, b) => b.count - a.count)
-      .slice(0, parseInt(limit));
+      .slice(0, limitNum);
 
     res.json(popularTags);
   } catch (error) {
@@ -908,7 +1016,8 @@ router.get("/users/search", authenticateToken, async (req, res) => {
   try {
     const { q } = req.query;
 
-    if (!q || q.length < 2) {
+    // Type validation for search query
+    if (!q || typeof q !== "string" || q.length < 2) {
       return res.json([]);
     }
 
