@@ -66,21 +66,21 @@ const LandingPage: React.FC = () => {
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center px-4 mb-12 sm:mb-16">
               <Link
                 to="/courses"
-                className="alien-button text-sm sm:text-base md:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto"
+                className="alien-button text-sm sm:text-base md:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto border-1 border-transparent hover:border-amber-500 hover:-translate-y-0.5"
               >
                 <GraduationCap className="inline mr-2" size={20} />
                 Explore Courses
               </Link>
               <Link
                 to="/roadmaps"
-                className="alien-button text-sm sm:text-base md:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto"
+                className="alien-button text-sm sm:text-base md:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto border-1 border-transparent hover:border-amber-500 hover:-translate-y-0.5"
               >
                 <Map className="inline mr-2" size={20} />
                 Learning Paths
               </Link>
               <Link
                 to="/discussions"
-                className="alien-button text-sm sm:text-base md:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto"
+                className="alien-button text-sm sm:text-base md:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto border-1 border-transparent hover:border-amber-500 hover:-translate-y-0.5"
               >
                 <MessageSquare className="inline mr-2" size={20} />
                 Join Community
@@ -142,14 +142,14 @@ const LandingPage: React.FC = () => {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
               {/* AI Courses */}
               <Link to="/courses" className="group">
-                <div className="smoke-card p-6 sm:p-8 relative smoke-effect hover:shadow-alien-glow transition-all h-full">
-                  <div className="w-12 sm:w-16 h-12 sm:h-16 bg-alien-green rounded-full flex items-center justify-center mb-4 sm:mb-6 shadow-alien-glow group-hover:scale-110 transition-transform">
+                <div className="smoke-card p-6 sm:p-8 relative smoke-effect hover:shadow-alien-glow transition-all duration-400 h-full border-1 border-transparent hover:border-amber-600">
+                  <div className="w-12 sm:w-16 h-12 sm:h-16 bg-alien-green rounded-full flex items-center justify-center mb-4 sm:mb-6 shadow-alien-glow group-hover:scale-106 transition-transform duration-300">
                     <GraduationCap className="text-royal-black" size={28} />
                   </div>
                   <h3 className="text-lg sm:text-xl font-alien font-bold mb-3 sm:mb-4 text-alien-green flex items-center">
                     AI-Powered Courses
                     <ArrowRight
-                      className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       size={20}
                     />
                   </h3>
@@ -176,14 +176,14 @@ const LandingPage: React.FC = () => {
 
               {/* Learning Roadmaps */}
               <Link to="/roadmaps" className="group">
-                <div className="smoke-card p-6 sm:p-8 relative smoke-effect hover:shadow-alien-glow transition-all h-full">
-                  <div className="w-12 sm:w-16 h-12 sm:h-16 bg-alien-green rounded-full flex items-center justify-center mb-4 sm:mb-6 shadow-alien-glow group-hover:scale-110 transition-transform">
+                <div className="smoke-card p-6 sm:p-8 relative smoke-effect hover:shadow-alien-glow transition-all duration-400 h-full border-1 border-transparent hover:border-amber-600">
+                  <div className="w-12 sm:w-16 h-12 sm:h-16 bg-alien-green rounded-full flex items-center justify-center mb-4 sm:mb-6 shadow-alien-glow group-hover:scale-106 transition-transform duration-300">
                     <Map className="text-royal-black" size={28} />
                   </div>
                   <h3 className="text-lg sm:text-xl font-alien font-bold mb-3 sm:mb-4 text-alien-green flex items-center">
                     Learning Roadmaps
                     <ArrowRight
-                      className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       size={20}
                     />
                   </h3>
@@ -210,14 +210,14 @@ const LandingPage: React.FC = () => {
 
               {/* Community Discussions */}
               <Link to="/discussions" className="group">
-                <div className="smoke-card p-6 sm:p-8 relative smoke-effect hover:shadow-alien-glow transition-all h-full">
-                  <div className="w-12 sm:w-16 h-12 sm:h-16 bg-alien-green rounded-full flex items-center justify-center mb-4 sm:mb-6 shadow-alien-glow group-hover:scale-110 transition-transform">
+                <div className="smoke-card p-6 sm:p-8 relative smoke-effect hover:shadow-alien-glow transition-all duration-400 h-full border-1 border-transparent hover:border-amber-600">
+                  <div className="w-12 sm:w-16 h-12 sm:h-16 bg-alien-green rounded-full flex items-center justify-center mb-4 sm:mb-6 shadow-alien-glow group-hover:scale-106 transition-transform duration-300">
                     <MessageSquare className="text-royal-black" size={28} />
                   </div>
                   <h3 className="text-lg sm:text-xl font-alien font-bold mb-3 sm:mb-4 text-alien-green flex items-center">
                     Community Q&A
                     <ArrowRight
-                      className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       size={20}
                     />
                   </h3>
@@ -244,14 +244,14 @@ const LandingPage: React.FC = () => {
 
               {/* Free Resources */}
               <Link to="/pdfs" className="group">
-                <div className="smoke-card p-6 sm:p-8 relative smoke-effect hover:shadow-alien-glow transition-all h-full">
-                  <div className="w-12 sm:w-16 h-12 sm:h-16 bg-alien-green rounded-full flex items-center justify-center mb-4 sm:mb-6 shadow-alien-glow group-hover:scale-110 transition-transform">
+                <div className="smoke-card p-6 sm:p-8 relative smoke-effect hover:shadow-alien-glow transition-all duration-400 h-full border-1 border-transparent hover:border-amber-600">
+                  <div className="w-12 sm:w-16 h-12 sm:h-16 bg-alien-green rounded-full flex items-center justify-center mb-4 sm:mb-6 shadow-alien-glow group-hover:scale-106 transition-transform duration-300">
                     <FileText className="text-royal-black" size={28} />
                   </div>
                   <h3 className="text-lg sm:text-xl font-alien font-bold mb-3 sm:mb-4 text-alien-green flex items-center">
                     Free PDFs & Ebooks
                     <ArrowRight
-                      className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       size={20}
                     />
                   </h3>
@@ -278,14 +278,14 @@ const LandingPage: React.FC = () => {
 
               {/* Interview Prep */}
               <Link to="/interview-resources" className="group">
-                <div className="smoke-card p-6 sm:p-8 relative smoke-effect hover:shadow-alien-glow transition-all h-full">
-                  <div className="w-12 sm:w-16 h-12 sm:h-16 bg-alien-green rounded-full flex items-center justify-center mb-4 sm:mb-6 shadow-alien-glow group-hover:scale-110 transition-transform">
+                <div className="smoke-card p-6 sm:p-8 relative smoke-effect hover:shadow-alien-glow transition-all duration-400 h-full border-1 border-transparent hover:border-amber-600">
+                  <div className="w-12 sm:w-16 h-12 sm:h-16 bg-alien-green rounded-full flex items-center justify-center mb-4 sm:mb-6 shadow-alien-glow group-hover:scale-106 transition-transform duration-300">
                     <Award className="text-royal-black" size={28} />
                   </div>
                   <h3 className="text-lg sm:text-xl font-alien font-bold mb-3 sm:mb-4 text-alien-green flex items-center">
                     Interview Prep
                     <ArrowRight
-                      className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       size={20}
                     />
                   </h3>
@@ -312,14 +312,14 @@ const LandingPage: React.FC = () => {
 
               {/* AI Chatbot */}
               <Link to="/pdf-chatbot" className="group">
-                <div className="smoke-card p-6 sm:p-8 relative smoke-effect hover:shadow-alien-glow transition-all h-full">
-                  <div className="w-12 sm:w-16 h-12 sm:h-16 bg-alien-green rounded-full flex items-center justify-center mb-4 sm:mb-6 shadow-alien-glow group-hover:scale-110 transition-transform">
+                <div className="smoke-card p-6 sm:p-8 relative smoke-effect hover:shadow-alien-glow transition-all duration-400 h-full border-1 border-transparent hover:border-amber-600">
+                  <div className="w-12 sm:w-16 h-12 sm:h-16 bg-alien-green rounded-full flex items-center justify-center mb-4 sm:mb-6 shadow-alien-glow group-hover:scale-106 transition-transform duration-300">
                     <Brain className="text-royal-black" size={28} />
                   </div>
                   <h3 className="text-lg sm:text-xl font-alien font-bold mb-3 sm:mb-4 text-alien-green flex items-center">
                     AI PDF Chatbot
                     <ArrowRight
-                      className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       size={20}
                     />
                   </h3>
@@ -452,14 +452,14 @@ const LandingPage: React.FC = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   to="/courses"
-                  className="alien-button text-base sm:text-lg px-8 py-4"
+                  className="alien-button text-base sm:text-lg px-8 py-4 border-1 border-transparent hover:border-amber-500 hover:-translate-y-0.5 hover:bg-[#14DE33]"
                 >
                   <GraduationCap className="inline mr-2" size={24} />
                   Start Learning Now
                 </Link>
                 <Link
                   to="/auth"
-                  className="alien-button text-base sm:text-lg px-8 py-4"
+                  className="alien-button text-base sm:text-lg px-8 py-4 border-1 border-transparent hover:border-amber-500 hover:-translate-y-0.5 hover:bg-[#14DE33]"
                 >
                   Create Free Account
                 </Link>
